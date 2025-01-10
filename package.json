@@ -1,0 +1,13 @@
+{
+  "name": "url-shortener",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "concurrently \"npm run start --prefix backend\" \"npm run dev --prefix frontend\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.0.1"
+  },
+  "dependencies": {
+    "@react-oauth/google": "^0.12.1"
+  }
+}

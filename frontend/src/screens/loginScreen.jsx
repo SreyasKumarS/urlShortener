@@ -1,0 +1,116 @@
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Form, Button, Row, Col } from "react-bootstrap";
+import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+import { toast } from "react-toastify";
+import api from '../axios';
+import FormContainer from "../components/userComponents/formContainer";
+import { setCredentials } from "../slices/userAuthSlice";
+import { useDispatch, useSelector } from "react-redux";
+
+const LoginPage = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
+ 
+  
+
+  useEffect(() => {
+    if (user) {
+      navigate('/users/ShortenUrlPage');
+    }
+  }, [user, navigate]);
+
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await api.post('/users/login', { email, password });
+      const result = response.data;
+      // dispatch(setCredentials({ user: result.user, token: result.token })); 
+      dispatch(setCredentials(result))
+      navigate('/users/ShortenUrlPage');
+      toast.success("Login successful!");
+    } catch (error) {
+      console.error("Login error:", error); // Log the error for debugging
+      toast.error(error.response?.data?.message || "Login failed");
+    }
+  };
+  
+  const handleGoogleLogin = async (response) => {
+    if (response.credential) {
+      try {
+        const googleToken = response.credential;
+        const result = await api.post("/api/users/googlelogin", { googleToken });
+        toast.success("Google login successful!");
+        localStorage.setItem("token", result.data.token); // Save token
+        navigate("/patient/HomeScreen");
+      } catch (error) {
+        toast.error("Google login failed.");
+      }
+    }
+  };
+
+  return (
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+      <FormContainer>
+        <h2>Login</h2>
+        <Form onSubmit={handleSubmit}>
+          <Form.Group className="my-2" controlId="email">
+            <Form.Label>Email:</Form.Label>
+            <Form.Control
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </Form.Group>
+
+          <Form.Group className="my-2" controlId="password">
+            <Form.Label>Password:</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </Form.Group>
+
+          <Row className="py-3">
+            <Col>
+              <Link to="/users/ForgotPasswordScreen">Forgot Password?</Link>
+            </Col>
+          </Row>
+
+            <Button
+                type="submit"
+                variant="primary"
+                className="mt-3"
+                style={{ backgroundColor: '#1F4E78', borderColor: '#1F4E78' }}
+                >
+                Login
+          </Button>
+
+          <Row className="py-3">
+            <Col>
+              Don’t have an account? <Link to="/users/RegisterScreen">Register</Link>
+            </Col>
+          </Row>
+        </Form>
+
+        <hr />
+        <GoogleLogin
+          onSuccess={handleGoogleLogin}
+          onError={() => toast.error("Google login failed")}
+          useOneTap
+        />
+      </FormContainer>
+    </GoogleOAuthProvider>
+  );
+};
+
+export default LoginPage;
