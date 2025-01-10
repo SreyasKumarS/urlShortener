@@ -135,7 +135,6 @@ export class UserService {
 
     
     static  async shortenUrl(originalUrl) {
-        console.log('entred url sav srvcccccccccc');
         
         originalUrl = originalUrl.trim();
         if (!validator.isURL(originalUrl)) {

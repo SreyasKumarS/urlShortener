@@ -14,8 +14,10 @@ const authSlice = createSlice({
             state.isAuthenticated = true;
             state.user = action.payload.user;
             state.token = action.payload.token;
+            console.log('Updated token in state:', state.token);
         },
         setToken: (state, action) => {
+            console.log('Updating token in state:', state.token);
             state.token = action.payload.token; 
         },
         clearCredentials: (state) => {

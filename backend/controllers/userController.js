@@ -79,14 +79,12 @@ export class UserController {
 
 
       async shortenUrl(req, res) {
-        console.log('entred url sav bcknnnn');
         
         const { url } = req.body;
     
         try {
           const shortUrl = await UserService.shortenUrl(url);
           const fullShortUrl = `${req.protocol}://${req.get('host')}/r/${shortUrl}`;
-          console.log(fullShortUrl,'cntrlrecuevd ful shirt url rslrt final');
           
           res.status(201).json({ shortenedUrl: fullShortUrl });
         } catch (error) {

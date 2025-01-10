@@ -12,10 +12,13 @@ const ShortenUrlPage = () => {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('')
     const user = useSelector((state) => state.auth.user);
+    const token=useSelector((state)=>state.auth.token)
+    console.log(user,'user deatils from home page after login for redux');
+    console.log(token,'token deatils from home page after login from redux');
 
     useEffect(() => {
         if (user) {
-            console.log(`User logged in: ${user.name}`);
+            // console.log(`User logged in: ${user.name}`);
         }
     }, [user]);
 
