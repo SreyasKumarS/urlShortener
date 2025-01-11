@@ -22,9 +22,7 @@ app.use(cookieParser());
 app.use(express.json());
 
 
-app.get('/', (req, res) => {
-  res.send('Server is working!');
-});
+
 
 
 import userRoutes from './routes/userRoutes.js';
