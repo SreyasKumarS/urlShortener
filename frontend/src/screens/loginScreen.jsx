@@ -41,7 +41,6 @@ const LoginPage = () => {
 
 
   return (
-    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
       <FormContainer>
         <h2>Login</h2>
         <Form onSubmit={handleSubmit}>
@@ -90,13 +89,7 @@ const LoginPage = () => {
         </Form>
 
         <hr />
-        <GoogleLogin
-          onSuccess={handleGoogleLogin}
-          onError={() => toast.error("Google login failed")}
-          useOneTap
-        />
       </FormContainer>
-    </GoogleOAuthProvider>
   );
 };
 

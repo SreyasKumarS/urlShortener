@@ -95,7 +95,6 @@ const RegisterScreen = () => {
   };
 
   return (
-    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
       <FormContainer>
         <h1>{!isOtpSent ? 'Sign Up' : 'Enter OTP'}</h1>
         <Form onSubmit={submitHandler}>
@@ -177,13 +176,7 @@ const RegisterScreen = () => {
           </Col>
         </Row>
         <hr />
-        <GoogleLogin
-          onSuccess={handleGoogleLogin}
-          onError={() => ("Google login failed")}
-          useOneTap
-        />
       </FormContainer>
-    </GoogleOAuthProvider>
   );
 };
 
