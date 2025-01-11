@@ -1,29 +1,16 @@
-// import axios from 'axios';
-
-// const api = axios.create({
-//   baseURL: 'http://localhost:5000',
-//   headers: {
-//     'Content-Type': 'application/json',
-//   },
-// });
-
-// export default api;
-
-
-
-
-
 import axios from 'axios';
 import  store  from './store';
 import { setToken } from './slices/userAuthSlice';
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000',
-  withCredentials: true, // Allow sending cookies
+  baseURL: `${import.meta.env.VITE_BACKEND_URL}`,
+  withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
   },
 });
+console.log(import.meta.env.VITE_BACKEND_URL);
+
 
 // Add a request interceptor to attach the access token
 api.interceptors.request.use(
