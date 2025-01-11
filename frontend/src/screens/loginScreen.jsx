@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Form, Button, Row, Col } from "react-bootstrap";
-import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { toast } from "react-toastify";
 import api from '../axios';
 import FormContainer from "../components/userComponents/formContainer";
@@ -39,19 +38,7 @@ const LoginPage = () => {
     }
   };
   
-  const handleGoogleLogin = async (response) => {
-    if (response.credential) {
-      try {
-        const googleToken = response.credential;
-        const result = await api.post("/api/users/googlelogin", { googleToken });
-        toast.success("Google login successful!");
-        localStorage.setItem("token", result.data.token); // Save token
-        navigate("/patient/HomeScreen");
-      } catch (error) {
-        toast.error("Google login failed.");
-      }
-    }
-  };
+
 
   return (
     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>

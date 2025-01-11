@@ -5,7 +5,6 @@ import { Form, Button, Row, Col } from "react-bootstrap";
 import { toast } from 'react-toastify';
 import api from '../axios';
 import { setCredentials } from "../slices/userAuthSlice";
-import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import FormContainer from "../components/userComponents/formContainer";
 
 const RegisterScreen = () => {
@@ -92,19 +91,6 @@ const RegisterScreen = () => {
       setResendDisabled(true);
     } catch (error) {
       toast.error('Failed to resend OTP');
-    }
-  };
-
-  const handleGoogleLogin = async (response) => {
-    if (response.credential) {
-      try {
-        const googleToken = response.credential;
-        const result = await api.post('/users/googlelogin', { googleToken });
-        dispatch(setCredentials(result.data)); 
-        navigate('/dashboard');
-      } catch (error) {
-        toast.error('Google login failed:', error);
-      }
     }
   };
 
